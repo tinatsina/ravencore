@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Homepage from './pages/homepage';
+import DroneList from './pages/dronelist';
+import CompanyPage from './pages/companypage';
+
+const items = [
+  {
+    label: 'Drop Zone',
+    key: 'drop_zone',
+    icon: <MailOutlined />,
+  },
+  {
+    label: 'Drone List',
+    key: 'drone_list',
+    icon: <AppstoreOutlined />,
+  },
+  {
+    label: 'UAV Fleet Management',
+    key: 'uav_fleet_management',
+    icon: <SettingOutlined />,
+  },
+];
+
+const App = () => {
+  const [current, setCurrent] = useState('drop_zone');
+
+  const onClick = e => {
+    console.log('click ', e);
+    setCurrent(e.key);
+  };
+
+  const renderContent = () => {
+    switch (current) {
+      case 'drop_zone':
+        return <Homepage />;
+      case 'drone_list':
+        return <DroneList />;
+      case 'uav_fleet_management':
+        return <CompanyPage />;
+      default:
+        return <Homepage />;
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+      <div style={{ marginTop: '20px' }}>{renderContent()}</div>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
