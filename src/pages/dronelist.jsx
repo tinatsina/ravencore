@@ -2,11 +2,11 @@ import React from 'react';
 import { Card, Row, Col } from 'antd';
 
 const images = [
-  'https://leagueofitems.com/images/items/128/6653.webp',
-  'https://leagueofitems.com/images/items/256/6662.webp',
-  'https://leagueofitems.com/images/items/128/3742.webp',
-  'https://leagueofitems.com/images/items/128/6657.webp',
-  'https://leagueofitems.com/images/items/128/6672.webp',
+  "https://images.unsplash.com/photo-1473186639016-1451879a06f0?w=500",
+  "https://images.unsplash.com/photo-1479152471347-3f2e62a2b2a7?w=500",
+  "https://images.unsplash.com/photo-1456615913800-c33540eac399?w=500",
+  "https://images.unsplash.com/photo-1506947411487-a56738267384?w=500",
+  "https://images.unsplash.com/photo-1483988633346-c7876cae9c46?w=500"
 ];
 
 const getRandomImage = () => {
