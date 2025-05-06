@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
+import axios from 'axios';
 
 const DroneCard = ({ drone }) => {
   return (
@@ -10,7 +11,7 @@ const DroneCard = ({ drone }) => {
       cover={
         <img
           alt="Drone"
-          src="https://leagueofitems.com/images/items/256/6662.webp"
+          src={drone.image || 'https://cdn.pixabay.com/photo/2015/11/03/09/10/question-mark-1020165_1280.jpg'}
           style={{ objectFit: 'cover', height: '200px' }}
         />
       }
@@ -24,13 +25,32 @@ const DroneCard = ({ drone }) => {
 };
 
 const Homepage = () => {
-  const droneDetails = {
-    id: 'DR12345',
-    model: 'DJI Phantom 4',
-    rfid: 'RFID-987654321',
-    status: 'Active',
-    lastMaintenance: '2025-04-15',
-  };
+  const [droneDetails, setDroneDetails] = useState({
+    id: 'Loading...',
+    model: 'Loading...',
+    rfid: 'Loading...',
+    status: 'Loading...',
+    lastMaintenance: 'Loading...',
+    image: '',
+  });
+
+  useEffect(() => {
+    const fetchDroneDetails = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/get_rfid');
+        setDroneDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching drone details:', error);
+      }
+    };
+
+    // Fetch drone details every 3 seconds
+    fetchDroneDetails(); // Initial fetch
+    const interval = setInterval(fetchDroneDetails, 10000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div style={{ padding: '20px' }}>
